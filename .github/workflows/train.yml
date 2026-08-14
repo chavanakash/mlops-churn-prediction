@@ -12,6 +12,7 @@ on:
       - "dvc.yaml"
       - "dvc.lock"
       - "requirements.txt"
+      - ".github/workflows/train.yml"
 
 jobs:
   train:
