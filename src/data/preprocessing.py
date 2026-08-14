@@ -9,14 +9,12 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-import yaml
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from src.data.ingestion import ingest_data, load_config
-
 
 CONFIG_PATH = Path("configs/data.yaml")
 

@@ -9,7 +9,6 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-
 CONFIG_PATH = Path("configs/data.yaml")
 
 

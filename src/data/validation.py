@@ -5,12 +5,10 @@ Validates schema, data types, missing values, ranges,
 duplicates, and target values before preprocessing.
 """
 
-from pathlib import Path
 
 import pandas as pd
 
-from src.data.ingestion import load_config, ingest_data
-
+from src.data.ingestion import ingest_data, load_config
 
 EXPECTED_COLUMNS = [
     "customer_id",

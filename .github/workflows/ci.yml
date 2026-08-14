@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test and Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      # -------------------------------------------------
+      # Checkout
+      # -------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -------------------------------------------------
+      # Python
+      # -------------------------------------------------
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # -------------------------------------------------
+      # System dependencies
+      # -------------------------------------------------
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgomp1
+
+      # -------------------------------------------------
+      # Python dependencies
+      # -------------------------------------------------
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # -------------------------------------------------
+      # Environment verification
+      # -------------------------------------------------
+      - name: Verify environment
+        run: |
+          python --version
+          pip --version
+          python -c "import pandas, sklearn, xgboost, mlflow, dvc, fastapi; print('All dependencies imported successfully')"
+
+      # -------------------------------------------------
+      # Tests
+      # -------------------------------------------------
+      - name: Run tests
+        run: |
+          pytest -v
+
+      # -------------------------------------------------
+      # Lint
+      # -------------------------------------------------
+      - name: Run Ruff
+        run: |
+          ruff check .
