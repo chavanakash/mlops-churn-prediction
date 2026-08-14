@@ -10,6 +10,7 @@ on:
       - "src/**"
       - "params.yaml"
       - "dvc.yaml"
+      - "dvc.lock"
       - "requirements.txt"
 
 jobs:
@@ -18,64 +19,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # -------------------------------------------------
-      # Checkout
-      # -------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # -------------------------------------------------
-      # Python
-      # -------------------------------------------------
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
-      # -------------------------------------------------
-      # System dependencies
-      # -------------------------------------------------
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libgomp1
 
-      # -------------------------------------------------
-      # Python dependencies
-      # -------------------------------------------------
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # -------------------------------------------------
-      # Verify environment
-      # -------------------------------------------------
       - name: Verify environment
         run: |
           python --version
           python -c "import pandas, sklearn, xgboost, mlflow, dvc; print('ML environment OK')"
 
-      # -------------------------------------------------
-      # Run training
-      # -------------------------------------------------
-      - name: Train models
+      - name: Run DVC pipeline
         run: |
-          python -m src.models.train
+          dvc repro
 
-      # -------------------------------------------------
-      # Verify artifacts
-      # -------------------------------------------------
       - name: Verify training artifacts
         run: |
+          test -f data/processed/preprocessor.joblib
           test -f data/processed/model_comparison.csv
           test -f data/processed/champion_model.json
           echo "Training artifacts verified"
 
-      # -------------------------------------------------
-      # Upload artifacts
-      # -------------------------------------------------
       - name: Upload model artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -83,3 +61,4 @@ jobs:
           path: |
             data/processed/model_comparison.csv
             data/processed/champion_model.json
+            data/processed/preprocessor.joblib
