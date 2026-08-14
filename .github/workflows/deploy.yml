@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy Application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify deployment configuration
+        run: |
+          echo "Deployment workflow triggered successfully"
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Commit: $GITHUB_SHA"
+
+      - name: Validate Kubernetes manifests
+        run: |
+          test -f kubernetes/namespace.yaml
+          test -f kubernetes/configmap.yaml
+          test -f kubernetes/deployment.yaml
+          test -f kubernetes/service.yaml
+          echo "Kubernetes manifests found"
+
+      - name: Deployment placeholder
+        run: |
+          echo "Application deployment would happen here"
+          echo "Target: Kubernetes cluster"

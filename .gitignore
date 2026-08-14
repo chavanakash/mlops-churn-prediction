@@ -51,7 +51,7 @@ data/processed/*.joblib
 # =========================================================
 
 # Local model output directories
-models/
+/models/
 
 # Temporary model files
 *.pkl
