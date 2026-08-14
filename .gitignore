@@ -40,7 +40,6 @@ mlruns/
 # =========================================================
 
 # Raw data is versioned using DVC
-data/raw/
 
 # Generated preprocessing artifact
 data/processed/*.joblib
@@ -93,3 +92,6 @@ data/processed/*.joblib
 
 .vscode/
 .idea/
+# DVC-generated model artifacts
+data/processed/champion_model.json
+data/processed/model_comparison.csv

@@ -1,0 +1,85 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python -m src.data.validation
+    deps:
+    - path: configs/data.yaml
+      hash: md5
+      md5: 809d03e34ed87ddde2d55146ab2a970d
+      size: 205
+    - path: data/raw/churn.csv
+      hash: md5
+      md5: 925bd996e6c97624f29f98f8d1fb37ef
+      size: 408987
+    - path: src/data/ingestion.py
+      hash: md5
+      md5: 6fc6a8604d8015a969c398159f1dafea
+      size: 1475
+    - path: src/data/validation.py
+      hash: md5
+      md5: 23d1744a9803c93e5525fd955dcc42c6
+      size: 4803
+  preprocess:
+    cmd: python -m src.data.preprocessing
+    deps:
+    - path: configs/data.yaml
+      hash: md5
+      md5: 809d03e34ed87ddde2d55146ab2a970d
+      size: 205
+    - path: data/raw/churn.csv
+      hash: md5
+      md5: 925bd996e6c97624f29f98f8d1fb37ef
+      size: 408987
+    - path: src/data/ingestion.py
+      hash: md5
+      md5: 6fc6a8604d8015a969c398159f1dafea
+      size: 1475
+    - path: src/data/preprocessing.py
+      hash: md5
+      md5: 8581fa5d4d186924a91d80248f18649d
+      size: 3456
+    outs:
+    - path: data/processed/preprocessor.joblib
+      hash: md5
+      md5: f23f16f8a959e5c9fb966441c74cd10e
+      size: 5046
+  train:
+    cmd: python -m src.models.train
+    deps:
+    - path: configs/data.yaml
+      hash: md5
+      md5: 809d03e34ed87ddde2d55146ab2a970d
+      size: 205
+    - path: data/processed/preprocessor.joblib
+      hash: md5
+      md5: f23f16f8a959e5c9fb966441c74cd10e
+      size: 5046
+    - path: data/raw/churn.csv
+      hash: md5
+      md5: 925bd996e6c97624f29f98f8d1fb37ef
+      size: 408987
+    - path: params.yaml
+      hash: md5
+      md5: 963066c3efd0df8275d3e46acea2d83e
+      size: 350
+    - path: src/data/ingestion.py
+      hash: md5
+      md5: 6fc6a8604d8015a969c398159f1dafea
+      size: 1475
+    - path: src/data/preprocessing.py
+      hash: md5
+      md5: 8581fa5d4d186924a91d80248f18649d
+      size: 3456
+    - path: src/models/train.py
+      hash: md5
+      md5: 2a982df06135c2cf1604b188664906b6
+      size: 14362
+    outs:
+    - path: data/processed/champion_model.json
+      hash: md5
+      md5: 2aa97d728ba0286d9ebf14ad954c3a09
+      size: 247
+    - path: data/processed/model_comparison.csv
+      hash: md5
+      md5: 29858bbb17ee4146ffc552695452b768
+      size: 437

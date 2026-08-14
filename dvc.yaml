@@ -1,0 +1,33 @@
+stages:
+
+  validate:
+    cmd: python -m src.data.validation
+    deps:
+      - data/raw/churn.csv
+      - src/data/validation.py
+      - src/data/ingestion.py
+      - configs/data.yaml
+
+  preprocess:
+    cmd: python -m src.data.preprocessing
+    deps:
+      - data/raw/churn.csv
+      - src/data/preprocessing.py
+      - src/data/ingestion.py
+      - configs/data.yaml
+    outs:
+      - data/processed/preprocessor.joblib
+
+  train:
+    cmd: python -m src.models.train
+    deps:
+      - data/raw/churn.csv
+      - data/processed/preprocessor.joblib
+      - src/models/train.py
+      - src/data/preprocessing.py
+      - src/data/ingestion.py
+      - configs/data.yaml
+      - params.yaml
+    outs:
+      - data/processed/champion_model.json
+      - data/processed/model_comparison.csv
