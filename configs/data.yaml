@@ -1,0 +1,14 @@
+data:
+  source: "local"
+
+  raw_path: "data/raw/churn.csv"
+
+  processed_path: "data/processed/churn_processed.csv"
+
+  target_column: "churn"
+
+  id_column: "customer_id"
+
+  test_size: 0.2
+
+  random_state: 42

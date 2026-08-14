@@ -1,0 +1,16 @@
+numpy
+pandas
+scikit-learn
+xgboost
+
+mlflow
+dvc
+
+fastapi
+uvicorn
+pydantic
+
+pytest
+ruff
+pyyaml
+joblib
